@@ -1,7 +1,8 @@
 from hashlib import sha256
 import json
 import time
-
+import os
+import glob
 
 class Block:
     def __init__(self, index, transactions, timestamp, previous_hash):
@@ -11,12 +12,23 @@ class Block:
         self.previous_hash = previous_hash
         self.nonce = 0
 
+        #Logans code
+        # https://www.geeksforgeeks.org/reading-and-writing-json-to-a-file-in-python/
+
+        self.json_obj = json.dumps(self.__dict__, indent=4, sort_keys=True)
+        
+        file_name = "block_" + str(self.index) + ".json"
+        with open(file_name, "w") as outfile:
+            outfile.write(self.json_obj)
+
+
+    # I edited this, no need to change
     def compute_hash(self):
         """
         A function that return the hash of the block contents.
         """
-        block_string = json.dumps(self.__dict__, sort_keys=True)
-        return sha256(block_string.encode()).hexdigest()
+        dump = json.dumps(self.__dict__, indent=4, sort_keys=True)
+        return sha256(dump.encode()).hexdigest()
 
 
 class Blockchain:
@@ -119,10 +131,30 @@ class Blockchain:
 ############
 # everything below, I wrote as a simple user menu. 
 
+
+"""
+ delete all pre-existing json files
+ done at setup to initialize a new chain
+ https://stackoverflow.com/questions/185936/how-to-delete-the-contents-of-a-folder
+"""
+def rm_json():
+
+    cwd = os.getcwd()
+    dir_json = cwd + "/*.json"
+
+    files = glob.glob(dir_json)
+    for f in files:
+        os.remove(f)
+
 def main():
 
+    # delete all pre-existing json files
+    # json files will exist after executing the python program
+    # so that the wallet program can access them
+    rm_json()    
+
+    # initialize a new blockchain object
     chain = Blockchain()
-    chain.add_new_transaction(("first transaction","poop"))
 
     print("\nEnter \"buy\" to make a transaction")
     print("Enter \"mine\" to mine a new block, containing your just entered transactions")
@@ -141,15 +173,18 @@ def main():
             # process transaction as string with three values, separated by spaces
             trans_inp = raw_input("enter your transaction: ")
             trans = trans_inp.split()
-            print("Your transaction: " + \
-            "   \nfrom: " + trans[0] + ", to: " + trans[1] + ", amount: " + trans[2])
-            
-            # confirm or cancel transaction
-            conf = raw_input("\nConfirm transaction (y/n): ")
-            if(conf == "y"):
-                chain.add_new_transaction(trans)
-            else:
-                print("transaction discarded.. returning to main menu")
+            if (len(trans) != 3):
+                print("invalid transaction")
+            else:    
+                print("Your transaction: " + \
+                "   \nfrom: " + trans[0] + ", to: " + trans[1] + ", amount: " + trans[2])
+                
+                # confirm or cancel transaction
+                conf = raw_input("\nConfirm transaction (y/n): ")
+                if(conf == "y"):
+                    chain.add_new_transaction(trans)
+                else:
+                    print("transaction discarded.. returning to main menu")
 
 
         # if input is "mine", call mine function
