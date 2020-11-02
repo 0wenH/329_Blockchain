@@ -38,9 +38,9 @@ Things that still need to be done:
   3. Lastly, this part relies on part 2. We need a way for users to keep track of the amount of money they have - a 'wallet'.
   I haven't seen any tutorial code that does this. 
   My idea is:
-    once we have a standard format for storing the transactions and a json file for each block
-    create a separate application or thread that simply keeps track of the latest block
-      this application will have an update() method that checks for new blocks
+    once we have a standard format for storing the transactions and a json file for each block..
+    create a separate application (or thread) that simply keeps track of the latest block.
+      This application will have an update() method that checks for new blocks,
       a check() method that checks if the newly added block has a transaction with the name
         of the owner in it. If it does, update his account balance, else ignore.
       And of course a show() method that shows the users balance.
