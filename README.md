@@ -2,6 +2,15 @@
 CPSC 329 repository for group project Blockchain
 
 
+
+--------- Nov. 2---------------------
+I made it so that the block class creates a json file upon creation.
+Upon starting the program, all old json files will be deleted. 
+After the program is finished running, the json files will still exist.
+This is so that the "wallet" app can view them.
+
+
+-------------------- Nov. 1 ---------------
 I used the code from this tutorial 
 https://developer.ibm.com/technologies/blockchain/tutorials/develop-a-blockchain-application-from-scratch-in-python/
 
