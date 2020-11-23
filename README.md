@@ -1,6 +1,12 @@
 # 329_Blockchain
 CPSC 329 repository for group project Blockchain
 
+----------------- nov 23-------------------
+created rudimentary wallet app
+
+added comments and did some rewriting of tutorial code, still lots more to do
+------------------------
+
 
 
 --------- Nov. 2---------------------
